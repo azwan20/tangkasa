@@ -9,6 +9,7 @@ if (!isset($_SESSION['login'])) {
 
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,7 +27,7 @@ if (!isset($_SESSION['login'])) {
 </head>
 
 <body>
-<div class="d-flex">
+    <div class="d-flex">
         <aside>
             <h1 style="text-align: center; color: #fff; margin-top: 20px;">TANGKASA</h1>
             <hr style="color: #fff; margin: 0 20px;">
@@ -95,23 +96,21 @@ if (!isset($_SESSION['login'])) {
             <div class="d-flex contain">
                 <div class="container-fluid">
                     <article>
-                        <div id="home-content" >
-                            <?php include 'home_admin.php' ?>
+                        <div id="home-content">
+                            <?php include 'home.php' ?>
                         </div>
                         <div id="information-content" style="display:none;">
-                            <?php include 'info_admin.php' ?>
+                            <?php include 'information.php' ?>
                         </div>
                         <div id="content-content" style="display:none;">
-                            <?php include 'content_admin.php' ?>
+                            <?php include 'content.php' ?>
                         </div>
                         <div id="calendar-content" style="display:none;">
-                            <?php include 'calendars_admin.php' ?>
+                            <?php include 'calendars.php' ?>
                         </div>
                         <div id="calculator-content" style="display:none;">
                             <?php include 'calculator.php' ?>
                         </div>
-
-
                     </article>
                 </div>
             </div>
@@ -162,6 +161,7 @@ if (!isset($_SESSION['login'])) {
                 calendarContent.style.display = 'block';
                 calculatorContent.style.display = 'none';
             }
+
             function showCalculator() {
                 homeContent.style.display = 'none';
                 informationContent.style.display = 'none';
@@ -170,15 +170,14 @@ if (!isset($_SESSION['login'])) {
                 calculatorContent.style.display = 'block';
             }
 
-
             homeTab.addEventListener('click', showHome);
             informationTab.addEventListener('click', showInformation);
             contentTab.addEventListener('click', showContent);
             calendarTab.addEventListener('click', showCalendar);
             calculatorTab.addEventListener('click', showCalculator);
         });
-        showHome();
 
+        showHome();
     </script>
 </body>
 

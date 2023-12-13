@@ -5,27 +5,28 @@ include 'koneksi.php';
 session_start();
 
 if (isset($_SESSION['login'])) {
-    header("Location: index_admin.php");
+    header("Location: index.php");
     exit;
 }
 
 if (isset($_POST["submit"])) {
-    $usernameAdmin = $_POST['username'];
-    $passwordAdmin = $_POST['password'];
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
-    $usernameAdmin = mysqli_real_escape_string($conn, $usernameAdmin);
-    $passwordAdmin = mysqli_real_escape_string($conn, $passwordAdmin);
+    $username = mysqli_real_escape_string($conn, $username);
+    $password = mysqli_real_escape_string($conn, $password);
 
-    $queryLog = "SELECT * FROM login WHERE username='$usernameAdmin' AND password='$passwordAdmin'";
-    $result = mysqli_query($conn, $queryLog);
+    $query = "SELECT * FROM registrasi WHERE username='$username' AND password='$password'";
+    $result = mysqli_query($conn, $query);
 
     if (mysqli_num_rows($result) == 1) {
         $row = mysqli_fetch_assoc($result);
 
         $_SESSION["login"] = true;
         $_SESSION["id"] = $row['id'];
-
-        header("Location: index_admin.php");
+?>
+<script>location.reload()</script>
+<?php
         exit;
     } else {
         $error = true;
@@ -64,12 +65,13 @@ if (isset($_POST["submit"])) {
                     <button type="submit" name="submit">LOGIN</button>
                 </form>
                 <div class="bottom">
-                    <p>Forgot Password</p>
-                    <a href="login.php">Nasabah Login</a>
+                    <p style="margin-bottom: 0">Forgot Password</p>
+                    <a href="login_admin.php">Pengelola Login</a>
                 </div>
-                <hr style="margin: auto 50px 35px;">
+                <p style="margin: 5px 50px">Belum punya akun? <a href="registrasi.php">klik disini</a></p>
+                <hr style="margin: auto 50px 25px;">
                 <span class="d-flex">
-                    <h4>Pengelola Login</h4>
+                    <h4>Nasabah Login</h4>
                 </span>
                 <?php if (isset($error)) { ?>
                     <p style="color: red; text-align: center;">Login failed. Please check your username and password.</p>

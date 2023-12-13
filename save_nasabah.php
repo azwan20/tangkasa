@@ -1,19 +1,25 @@
 <?php
 
-include 'koneksi.php'; 
+include 'koneksi.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $idN = $_POST["idN"];
+    $newId = $_POST["id"];
     $newName = $_POST["name"];
-    $newAddress = $_POST["umurN"];
-    $newPhone = $_POST["jkN"];
-    $newGender = $_POST["alamatN"];
+    $newUmur = $_POST["umurN"];
+    $newJk = $_POST["jkN"];
+    $newAlamat = $_POST["alamatN"];
     $newUsername = $_POST["usernameN"];
     $newPassword = $_POST["passwordN"];
 
-    $sql = "UPDATE registrasi SET nama = '$newName', umur = '$newAddress', jenis_kelamin = '$newPhone', alamat = '$newGender' WHERE id = '$idN'";
-    
-    
+    $sql = "UPDATE registrasi SET 
+                nama = '$newName', 
+                umur = '$newUmur', 
+                jenis_kelamin = '$newJk', 
+                alamat = '$newAlamat', 
+                username = '$newUsername', 
+                password = '$newPassword' 
+            WHERE id = $newId";
+
     if ($conn->query($sql) === TRUE) {
         echo "Profile data updated successfully";
     } else {
@@ -24,5 +30,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 } else {
     echo "Invalid request method";
 }
-
 ?>

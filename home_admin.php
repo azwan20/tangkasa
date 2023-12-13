@@ -1,13 +1,16 @@
-<?php 
+<?php
 
 include 'koneksi.php';
 
-$sql = "SELECT * FROM admin LIMIT 1";
+$idLoginAdmin = $_SESSION['id'];
+
+$sql = "SELECT * FROM admin WHERE id='$idLoginAdmin'";
 $result = $conn->query($sql);
 
 
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
+    $idAdmin = $row["id"];
     $namaPengelola = $row["nama"];
     $namaBSU = $row["nama_bsu"];
     $bsuId = $row["id_bsu"];
@@ -19,11 +22,12 @@ if ($result->num_rows > 0) {
     $jenisKelamin = "Laki-laki";
 }
 
-$sql2 = "SELECT * FROM login LIMIT 1";
+$sql2 = "SELECT * FROM login WHERE id='$idLoginAdmin'";
 $result2 = $conn->query($sql2);
 
 if ($result2->num_rows > 0) {
     $row2 = $result2->fetch_assoc();
+    $idLA = $row2["id"];
     $username = $row2["username"];
     $password = $row2["password"];
 } else {
@@ -34,8 +38,16 @@ if ($result2->num_rows > 0) {
 ?>
 
 <style>
-    p{
+    p {
         text-align: left;
+    }
+
+    input{
+        height: 30px;
+        margin-bottom: 0;
+        border: 1px solid #054D11;
+        border-radius: 5px;
+
     }
 </style>
 
@@ -57,12 +69,14 @@ if ($result2->num_rows > 0) {
 <div class="d-flex identity">
     <img src="style/image/admin.svg" width="150px" height="150px" alt="admin">
     <span style="margin-left: 20px;">
+        <p style="display: none;">id</p>
         <p>Nama Pengelola</p>
         <p>Nama BSU</p>
         <p>ID BSU</p>
         <p>Jenis Kelamin</p>
     </span>
     <span>
+        <p id="idAdmin" style="display: none;">: <strong><?php echo $idAdmin; ?></strong></p>
         <p id="name">: <strong><?php echo $namaPengelola; ?></strong></p>
         <p id="address">: <strong><?php echo $namaBSU; ?></strong></p>
         <p id="phone">: <strong><?php echo $bsuId; ?></strong></p>
@@ -73,10 +87,12 @@ if ($result2->num_rows > 0) {
 <hr>
 <div class="d-flex">
     <span>
+        <p style="display: none;">id</p>
         <p>Username </p>
         <p>Password</p>
     </span>
     <span>
+        <p id="idLA" style="display: none;">: <strong><?php echo $idLA; ?></strong></p>
         <p id="username">: <?php echo $username; ?></p>
         <p id="password">: ***** </p>
     </span>
@@ -89,6 +105,8 @@ if ($result2->num_rows > 0) {
 
 <script>
     function editProfile() {
+        var idAdminElement = document.getElementById("idAdmin");
+        var idLAElement = document.getElementById("idLA");
         var nameElement = document.getElementById("name");
         var addressElement = document.getElementById("address");
         var phoneElement = document.getElementById("phone");
@@ -96,6 +114,8 @@ if ($result2->num_rows > 0) {
         var usernameElement = document.getElementById("username");
         var passwordElement = document.getElementById("password");
 
+        idAdminElement.innerHTML = '<input type="text" id="idAdminInput" value="<?php echo $idAdmin; ?>">';
+        idLAElement.innerHTML = '<input type="text" id="idLAInput" value="<?php echo $idLA; ?>">';
         nameElement.innerHTML = '<input type="text" id="nameInput" value="<?php echo $namaPengelola; ?>">';
         addressElement.innerHTML = '<input type="text" id="addressInput" value="<?php echo $namaBSU; ?>">';
         phoneElement.innerHTML = '<input type="text" id="phoneInput" value="<?php echo $bsuId; ?>">';
@@ -108,6 +128,8 @@ if ($result2->num_rows > 0) {
     }
 
     function saveProfile() {
+        var newidAdmin = document.getElementById("idAdminInput").value;
+        var newidLA = document.getElementById("idLAInput").value;
         var newName = document.getElementById("nameInput").value;
         var newAddress = document.getElementById("addressInput").value;
         var newPhone = document.getElementById("phoneInput").value;
@@ -116,8 +138,10 @@ if ($result2->num_rows > 0) {
         var newPassword = document.getElementById("passwordInput").value;
 
         var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function () {
+        xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
+                document.getElementById("idAdmin").innerText = newidAdmin;
+                document.getElementById("idLA").innerText = newidLA;
                 document.getElementById("name").innerText = newName;
                 document.getElementById("address").innerText = newAddress;
                 document.getElementById("phone").innerText = newPhone;
@@ -132,18 +156,20 @@ if ($result2->num_rows > 0) {
 
         xhr.open("POST", "save_profile.php", true);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhr.send("name=" + newName + "&address=" + newAddress + "&phone=" + newPhone + "&gender=" + newGender + "&username=" + newUsername + "&password=" + newPassword);
+        xhr.send("idAdmin=" + newidAdmin + "&idLA=" + newidLA + "&name=" + newName + "&address=" + newAddress + "&phone=" + newPhone + "&gender=" + newGender + "&username=" + newUsername + "&password=" + newPassword);
+        location.reload();
     }
 
     function cancelEdit() {
-        document.getElementById("name").innerHTML = "Rizaldi";
-        document.getElementById("address").innerHTML = "Tangkasa";
-        document.getElementById("phone").innerHTML = "666";
-        document.getElementById("gender").innerHTML = "laki-laki";
-        document.getElementById("username").innerHTML = "username";
-        document.getElementById("password").innerHTML = "password";
+        document.getElementById("name").innerHTML = "????";
+        document.getElementById("address").innerHTML = "????";
+        document.getElementById("phone").innerHTML = "????";
+        document.getElementById("gender").innerHTML = "????";
+        document.getElementById("username").innerHTML = "????";
+        document.getElementById("password").innerHTML = "????";
 
         document.getElementById("saveBtn").style.display = "none";
         document.getElementById("cancelBtn").style.display = "none";
+        location.reload();
     }
 </script>

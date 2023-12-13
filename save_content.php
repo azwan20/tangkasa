@@ -4,10 +4,13 @@ include 'koneksi.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST["id"];
-    $judulContent = $_POST["title"];
-    $keterangan = $_POST["description"];
+    $newjudulContent = $_POST["judulContent"];
+    $keterangan = $_POST["keterangan"];
 
-    $sql = "UPDATE content SET judul = '$judulContent', keterangan = '$keterangan' WHERE id = $id";
+    // Lakukan update data di database sesuai dengan ID
+    $sql = "UPDATE content SET judul = '$newjudulContent', keterangan = '$keterangan' WHERE id = $id";
+    $result = $conn->query($sql);
+
     
     if ($conn->query($sql) === TRUE) {
         echo "Profile data updated successfully";

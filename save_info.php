@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $judul = $_POST["judul"];
 
     // Lakukan update data di database sesuai dengan ID
-    $sql = "UPDATE informasi SET img='$gambar', judul='$judul' WHERE id=1";
+    $sql = "UPDATE informasi SET img='$gambar', judul='$judul' WHERE id=$id";
     $result = $conn->query($sql);
 
     if ($result) {
@@ -18,5 +18,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 } else {
     echo "Invalid request";
 }
-
-?>
